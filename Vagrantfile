@@ -29,10 +29,36 @@ Vagrant.configure("2") do |config|
         vb.cpus = server["cpus"]
       end
 
-      if server["system"] == "ubuntu/bionic64"
-        srv.vm.provision "shell", inline: "apt install python -y"
+      # STANDARD CONFIG - CENTOS7
+      if server["system"] == "centos/7"
+        srv.vm.provision "shell", inline: "sudo yum install epel-release -y"
+        srv.vm.provision "shell", inline: "sudo yum install wget curl net-tools bind-utils telnet vim git -y"
       end
 
+      # STANDARD CONFIG - UBUNTU
+      if server["system"] == "ubuntu/bionic64"
+        srv.vm.provision "shell", inline: "apt install python curl wget net-tools bind-utils telnet -y"
+      end
+
+      # DOCKER CONFIG - CENTOS7
+      if server["docker"] == "true" && server["system"] == "centos/7"
+        srv.vm.provision "shell", inline: "sudo yum install -y yum-utils device-mapper-persistent-data lvm2"
+        srv.vm.provision "shell", inline: "sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+        srv.vm.provision "shell", inline: "sudo yum install docker-ce docker-ce-cli containerd.io -y"
+	srv.vm.provision "shell", inline: "sudo systemctl start docker && sudo systemctl enable docker"
+      end
+
+      # ANSIBLE CONFIG - CENTOS7
+      if server["ansible"] == "true" && server["system"] == "centos/7"
+        srv.vm.provision "shell", inline: "sudo yum install -y ansible"
+      end
+
+      # DOCKER CONFIG - UBUNTU
+      
+      # ANSIBLE CONFIG - UBUNTU
+
+      # POST PROVISION SHELL
+      
       config.vm.provision "shell", inline: "cp /vagrant/hosts /etc/hosts"
       config.vm.provision "shell", inline: "mkdir -p /root/.ssh"
       config.vm.provision "shell", inline: "cp /vagrant/id_rsa /root/.ssh/id_rsa"
