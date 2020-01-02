@@ -37,7 +37,8 @@ Vagrant.configure("2") do |config|
 
       # STANDARD CONFIG - UBUNTU
       if server["system"] == "ubuntu/bionic64"
-        srv.vm.provision "shell", inline: "apt install python curl wget net-tools bind-utils telnet -y"
+        srv.vm.provision "shell", inline: "apt update -y"
+        srv.vm.provision "shell", inline: "apt install python curl wget net-tools telnet software-properties-common -y"
       end
 
       # DOCKER CONFIG - CENTOS7
@@ -54,8 +55,20 @@ Vagrant.configure("2") do |config|
       end
 
       # DOCKER CONFIG - UBUNTU
-      
+      if server["docker"] == "true" && server["system"] == "ubuntu/bionic64"
+        srv.vm.provision "shell", inline: "sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y"
+        srv.vm.provision "shell", inline: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
+        srv.vm.provision "shell", inline: "sudo add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable'"
+        srv.vm.provision "shell", inline: "apt update -y"
+        srv.vm.provision "shell", inline: "sudo apt-get install docker-ce docker-ce-cli containerd.io -y"
+      end
+     
       # ANSIBLE CONFIG - UBUNTU
+      if server["ansible"] == "true" && server["system"] == "ubuntu/bionic64"
+        srv.vm.provision "shell", inline: "sudo apt-add-repository ppa:ansible/ansible -y"
+        srv.vm.provision "shell", inline: "apt update -y"
+        srv.vm.provision "shell", inline: "apt install ansible -y"
+      end
 
       # POST PROVISION SHELL
       
