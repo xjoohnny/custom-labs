@@ -1,29 +1,45 @@
-# vagrant-4-labs
+# custom-labs
 
 Vagrantfile para criação de laboratórios com Hashicorp Vagrant.
 
-Incluí personalizações para:
-
-* criar automaticamente chaves de SSH para o usuário root.
-* criar arquivo /etc/hosts para resolução de nomes entre VM's.
-* definição de máquinas virtuais baseada em arquivo YAML.
-
 O objetivo deste projeto é usar as funcionalidades aplicadas ao arquivo Vagrantfile para montar laboratórios virtuais de forma simples e dinâmica.
 
-## Para iniciar o laboratório
+## Iniciando o Lab
 
 Faça o download dos arquivos disponíveis neste projeto através do git:
 
 ```
-git clone https://github.com/jonathandalves/vagrant-4-labs.git
+https://github.com/xjoohnny/custom-labs.git
 ```
 
-Acesse o diretório vagrant-4-labs e, através do arquivo machines.yml, personalize as características das máquinas virtuais que você deseja construír.
+Acesse o diretório custom-labs e, através do arquivo machines.yml, personalize as características das máquinas virtuais que você deseja construír.
 
 ```
 cd vagrant-4-labs
 vim machines.yml
 ```
+Os parâmetros do arquivo .yml são:
+- **name:** server01
+- **cpus:** 1
+- **memory:** 1024
+- **hostname:** server01.lab.com
+- **ip:** 192.168.120.2
+- **system:** centos/7
+- **docker:** "true"
+- **ansible:** "true"
+
+Caso os parâmetros *"docker"* e *"ansible"* sejam iguais a "true", a instalação dos softwares em questão será realizada para facilitar o processo de provisionamento.
+
+Para deixar o Lab mais completo, os aplicativos abaixo são instalados nos sistemas operacionais:
+- *epel-release (quando o SO é Centos/7)*
+- *wget*
+- *curl*
+- *vim*
+- *net-tools*
+- *bind-utils*
+- *git*
+- *python (quando o SO é ubuntu/bionic64)*
+
 
 A seguir construa as máquinas virtuais usando o Vagrant:
 
@@ -63,3 +79,4 @@ vagrant up --provision
 # Informações do Autor
 
 Criado por [Jonathan Dantas Alves](https://www.linkedin.com/in/jonathandantasalves/).
+Forked por [João Vithor - xjoohnny](https://www.linkedin.com/in/jvfogaca/).
