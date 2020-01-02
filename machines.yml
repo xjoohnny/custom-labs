@@ -3,6 +3,6 @@
   memory: 1024
   hostname: server01.lab.com
   ip: 192.168.120.1
-  system: ubuntu/bionic64
+  system: centos/7
   docker: "true"
   ansible: "true"
