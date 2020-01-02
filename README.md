@@ -15,7 +15,7 @@ https://github.com/xjoohnny/custom-labs.git
 Acesse o diretório custom-labs e, através do arquivo machines.yml, personalize as características das máquinas virtuais que você deseja construír.
 
 ```
-cd vagrant-4-labs
+cd custom-labs
 vim machines.yml
 ```
 Os parâmetros do arquivo .yml são:
