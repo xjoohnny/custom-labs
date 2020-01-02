@@ -15,7 +15,7 @@ https://github.com/xjoohnny/custom-labs.git
 Acesse o diretório custom-labs e, através do arquivo machines.yml, personalize as características das máquinas virtuais que você deseja construír.
 
 ```
-cd vagrant-4-labs
+cd custom-labs
 vim machines.yml
 ```
 Os parâmetros do arquivo .yml são:
@@ -39,6 +39,8 @@ Para deixar o Lab mais completo, os aplicativos abaixo são instalados nos siste
 - *bind-utils*
 - *git*
 - *python (quando o SO é ubuntu/bionic64)*
+- *software-properties-common (quando o SO é ubuntu/bionic64)*
+
 
 
 A seguir construa as máquinas virtuais usando o Vagrant:
