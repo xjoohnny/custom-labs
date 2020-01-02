@@ -39,6 +39,8 @@ Para deixar o Lab mais completo, os aplicativos abaixo são instalados nos siste
 - *bind-utils*
 - *git*
 - *python (quando o SO é ubuntu/bionic64)*
+- *software-properties-common (quando o SO é ubuntu/bionic64)*
+
 
 
 A seguir construa as máquinas virtuais usando o Vagrant:
