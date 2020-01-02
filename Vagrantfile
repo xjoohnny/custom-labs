@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
       # STANDARD CONFIG - UBUNTU
       if server["system"] == "ubuntu/bionic64"
         srv.vm.provision "shell", inline: "apt update -y"
-        srv.vm.provision "shell", inline: "apt install python curl wget net-tools telnet software-properties-common -y"
+        srv.vm.provision "shell", inline: "apt install python curl wget net-tools git telnet software-properties-common -y"
       end
 
       # DOCKER CONFIG - CENTOS7
