@@ -25,12 +25,15 @@ Os parâmetros do arquivo .yml são:
 - **hostname:** server01.lab.com
 - **ip:** 192.168.120.2
 - **system:** centos/7
+- **basic-tools:** "true"
 - **docker:** "true"
 - **ansible:** "true"
+- **apache:** "true"
+- **nginx:** "true"
 
-Caso os parâmetros *"docker"* e *"ansible"* sejam iguais a "true", a instalação dos softwares em questão será realizada para facilitar o processo de provisionamento.
+Os softwares *Docker, Ansible, Apache e Nginx* podem ser instalados automaticamente caso os seus respectivos parâmetros sejam deixados como ```"true"```.
 
-Para deixar o Lab mais completo, os aplicativos abaixo são instalados nos sistemas operacionais:
+Para deixar o Lab mais completo, os aplicativos abaixo são instalados nos sistemas operacionais caso o parâmetro ```"basic-tools"``` seja deixado como `"true"`:
 - *epel-release (quando o SO é Centos/7)*
 - *wget*
 - *curl*
@@ -42,8 +45,7 @@ Para deixar o Lab mais completo, os aplicativos abaixo são instalados nos siste
 - *software-properties-common (quando o SO é ubuntu/bionic64)*
 
 
-
-A seguir construa as máquinas virtuais usando o Vagrant:
+Subir máquinas virtuais:
 
 ```
 vagrant up
