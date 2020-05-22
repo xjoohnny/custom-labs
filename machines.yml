@@ -2,7 +2,10 @@
   cpus: 1
   memory: 1024
   hostname: server01.lab.com
-  ip: 192.168.120.1
+  ip: 192.168.5.11
   system: centos/7
-  docker: "true"
-  ansible: "true"
+  basic-tools: "true"
+  docker: "false"
+  ansible: "false"
+  apache: "false"
+  nginx: "false"

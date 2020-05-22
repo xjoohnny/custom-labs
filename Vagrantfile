@@ -28,50 +28,43 @@ Vagrant.configure("2") do |config|
         vb.memory = server["memory"]
         vb.cpus = server["cpus"]
       end
-
-      # STANDARD CONFIG - CENTOS7
-      if server["system"] == "centos/7"
-        srv.vm.provision "shell", inline: "sudo yum install epel-release -y"
-        srv.vm.provision "shell", inline: "sudo yum install wget curl net-tools bind-utils telnet vim git -y"
+      
+      # BASIC-TOOLS CONFIG
+      if server["basic-tools"] == "true" && server["system"] == "centos/7"
+        srv.vm.provision "shell", path: "scripts/basic-tools/centos7.sh"
+      elsif server["basic-tools"] == "true" && server["system"] == "ubuntu/bionic64"
+        srv.vm.provision "shell", path: "scripts/basic-tools/ubuntu-bionic64.sh"
       end
 
-      # STANDARD CONFIG - UBUNTU
-      if server["system"] == "ubuntu/bionic64"
-        srv.vm.provision "shell", inline: "apt update -y"
-        srv.vm.provision "shell", inline: "apt install python curl wget net-tools git telnet software-properties-common -y"
-      end
-
-      # DOCKER CONFIG - CENTOS7
+      # DOCKER CONFIG
       if server["docker"] == "true" && server["system"] == "centos/7"
-        srv.vm.provision "shell", inline: "sudo yum install -y yum-utils device-mapper-persistent-data lvm2"
-        srv.vm.provision "shell", inline: "sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
-        srv.vm.provision "shell", inline: "sudo yum install docker-ce docker-ce-cli containerd.io -y"
-	srv.vm.provision "shell", inline: "sudo systemctl start docker && sudo systemctl enable docker"
+        srv.vm.provision "shell", path: "scripts/docker/centos7.sh"
+      elsif server["docker"] == "true" && server["system"] == "ubuntu/bionic64"
+        srv.vm.provision "shell", path: "scripts/docker/ubuntu-bionic64.sh"
       end
 
-      # ANSIBLE CONFIG - CENTOS7
+      # ANSIBLE CONFIG
       if server["ansible"] == "true" && server["system"] == "centos/7"
-        srv.vm.provision "shell", inline: "sudo yum install -y ansible"
+        srv.vm.provision "shell", path: "scripts/ansible/centos7.sh"
+      elsif server["ansible"] == "true" && server["system"] == "ubuntu/bionic64"
+        srv.vm.provision "shell", path: "scripts/ansible/ubuntu-bionic64.sh"
       end
 
-      # DOCKER CONFIG - UBUNTU
-      if server["docker"] == "true" && server["system"] == "ubuntu/bionic64"
-        srv.vm.provision "shell", inline: "sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y"
-        srv.vm.provision "shell", inline: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
-        srv.vm.provision "shell", inline: "sudo add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable'"
-        srv.vm.provision "shell", inline: "apt update -y"
-        srv.vm.provision "shell", inline: "sudo apt-get install docker-ce docker-ce-cli containerd.io -y"
-      end
-     
-      # ANSIBLE CONFIG - UBUNTU
-      if server["ansible"] == "true" && server["system"] == "ubuntu/bionic64"
-        srv.vm.provision "shell", inline: "sudo apt-add-repository ppa:ansible/ansible -y"
-        srv.vm.provision "shell", inline: "apt update -y"
-        srv.vm.provision "shell", inline: "apt install ansible -y"
+      # WEBSERVER CONFIG
+      if server["apache"] == "true" && server["system"] == "centos/7" && server["nginx"] == "false"
+        srv.vm.provision "shell", path: "scripts/apache/centos7.sh"
+      elsif server["apache"] == "true" && server["system"] == "ubuntu/bionic64" && server["nginx"] == "false"
+        srv.vm.provision "shell", path: "scripts/apache/ubuntu-bionic64.sh"
+      elsif server["apache"] == "false" && server["system"] == "centos/7" && server["nginx"] == "true"
+        srv.vm.provision "shell", path: "scripts/nginx/centos7.sh"
+      elsif server["apache"] == "false" && server["system"] == "ubuntu/bionic64" && server["nginx"] == "true"
+        srv.vm.provision "shell", path: "scripts/nginx/ubuntu-bionic64.sh"
+      elsif server["apache"] == "true" && server["nginx"] == "true"
+        srv.vm.provision "shell", privileged: false, inline: "echo 'Both Apache and Nginx options were set to TRUE, choose one to avoid port conflicts!'"
+        srv.vm.provision "shell", privileged: false, inline: "echo 'Skipping webserver instalation...'"
       end
 
       # POST PROVISION SHELL
-      
       config.vm.provision "shell", inline: "cp /vagrant/hosts /etc/hosts"
       config.vm.provision "shell", inline: "mkdir -p /root/.ssh"
       config.vm.provision "shell", inline: "cp /vagrant/id_rsa /root/.ssh/id_rsa"
