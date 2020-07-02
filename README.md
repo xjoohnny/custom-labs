@@ -80,6 +80,20 @@ A seguir reprovisione as máquinas virtuais que já estão em execução para qu
 vagrant up --provision
 ```
 
+## Desligar/Remover o laboratório
+
+Para desligar as VMs:
+
+```
+vagrant halt
+```
+
+Para remover as VMs:
+
+```
+vagrant destroy -f
+```
+
 # Informações do Autor
 
 Criado por [Jonathan Dantas Alves](https://www.linkedin.com/in/jonathandantasalves/).
