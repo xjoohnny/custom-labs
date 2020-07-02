@@ -9,7 +9,7 @@ O objetivo deste projeto é usar as funcionalidades aplicadas ao arquivo Vagrant
 Faça o download dos arquivos disponíveis neste projeto através do git:
 
 ```
-https://github.com/xjoohnny/custom-labs.git
+git clone https://github.com/xjoohnny/custom-labs.git
 ```
 
 Acesse o diretório custom-labs e, através do arquivo machines.yml, personalize as características das máquinas virtuais que você deseja construír.
